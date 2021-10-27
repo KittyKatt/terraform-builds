@@ -1,0 +1,65 @@
+hostname: ${name}
+packages:
+  - python3
+  - centos-release-ceph-octopus
+  - epel-release
+users:
+  - default
+  - name: docker
+    gecos: Docker User
+    lock-passwd: true
+    primary_group: docker
+    groups: wheel, adm
+    sudo: ALL=(ALL) NOPASSWD:ALL
+%{ if length(ssh_key) != 0 ~}
+    ssh_authorized_keys:
+%{ for key in ssh_key ~}
+      - ${key}
+%{ endfor ~}
+%{ endif ~}
+%{ if length(ssh_id) != 0 ~}
+    ssh_import_id:
+%{ for id in ssh_id ~}
+      - ${id}
+%{ endfor ~}
+%{ endif ~}
+  - name: cephuser
+    gecos: Ceph Admin User
+    lock-passwd: true
+    primary_group: ceph
+    groups: wheel, docker, adm
+    sudo: ALL=(ALL) NOPASSWD:ALL
+%{ if length(ssh_key) != 0 ~}
+    ssh_authorized_keys:
+%{ for key in ssh_key ~}
+      - ${key}
+%{ endfor ~}
+%{ endif ~}
+%{ if length(ssh_id) != 0 ~}
+    ssh_import_id:
+%{ for id in ssh_id ~}
+      - ${id}
+%{ endfor ~}
+%{ endif ~}
+write_files:
+  - path: /root/smb-creds
+    content: |
+      username=${smbuser}
+      password=${smbpass}
+    owner: root:root
+    permissionss: 0600
+mounts:
+%{ for mount_key, mount_value in mounts ~}
+  - [ "${mounts[mount_key].source}", ${mounts[mount_key].destination}, auto, "${mounts[mount_key].options}" ]
+%{ endfor ~}
+runcmd:
+  - hostnamectl set-hostname ${name}
+  - echo "My hostname is $(hostname)."
+  - /usr/bin/firewall-offline-cmd --add-port=2377/tcp
+  - /usr/bin/firewall-offline-cmd --add-port=7946/tcp
+  - /usr/bin/firewall-offline-cmd --add-port=7946/udp
+  - /usr/bin/firewall-offline-cmd --add-port=4789/udp
+  - /usr/bin/firewall-offline-cmd --add-port=6800-7300/tcp
+  - echo "Ports should be open."
+  - alternatives --set python /usr/bin/python3
+  - echo "Set /usr/bin/python alternative to python3."

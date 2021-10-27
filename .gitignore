@@ -1,4 +1,10 @@
 swarm/xcp-ng/
+swarm/proxmox/.terraform.lock.hcl
+swarm/proxmox/.terraform/
+swarm/proxmox/.secrets
+swarm/proxmox/packer/
+swarm/proxmox/ansible/
+swarm/proxmox/modules/config/templates/
 k3os/proxmox/.terraform.lock.hcl
 k3os/proxmox/.terraform/
 k3os/proxmox/.secrets
