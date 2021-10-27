@@ -1,0 +1,8 @@
+proxmox_api_url = ""
+proxmox_user    = ""
+proxmox_pass    = ""
+iso_checksum    = ""
+storage_pool    = ""
+proxmox_node    = ""
+template_name   = ""
+iso_path        = ""
