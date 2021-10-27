@@ -1,0 +1,13 @@
+ssh_authorized_keys:
+  - github:KittyKatt
+
+k3os:
+  data_sources:
+    - vmware
+    - cdrom
+
+write_files:
+  - path: /etc/k3os_is_installed
+    content: ""
+    owner: root
+    permissions: "0644"
