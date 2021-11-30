@@ -1,0 +1,7 @@
+api_url           = ""
+iso_checksum      = ""
+iso_path          = ""
+storage_pool      = ""
+node              = ""
+ha_group          = ""
+k3os_version      = ""
