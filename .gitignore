@@ -9,6 +9,7 @@ swarm/proxmox/modules/config/templates/
 k3os/proxmox/.terraform.lock.hcl
 k3os/proxmox/.terraform/
 k3os/proxmox/.secrets
+k3os/proxmox/packer/variables.pkrvars.hcl
 k3os/vsphere/.terraform/
 k3os/vsphere/.terraform.lock.hcl
 k3os/vsphere/.secrets
