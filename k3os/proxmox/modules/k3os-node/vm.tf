@@ -18,13 +18,13 @@ resource "proxmox_vm_qemu" "k3s_node" {
   depends_on = [module.user_data]
 
   name       = var.name
-  target_node = "pve-storage"
+  target_node = "toril"
 
   cores   = var.cpu_n
   sockets = 1
   memory  = var.mem_n
 
-  clone = "k3os-v0.22.2-k3s2r0"
+  clone = "k3os"
   full_clone = false
 
   network {
@@ -36,7 +36,7 @@ resource "proxmox_vm_qemu" "k3s_node" {
 
   disk {
     type    = "virtio"
-    storage = "local-lvm"
+    storage = "VMDisks"
     size    = "35G"
   }
 
@@ -49,8 +49,8 @@ resource "proxmox_vm_qemu" "k3s_node" {
 
   os_type = "cloud-init"
   #ipconfig0 = "ip=10.1.10.94/24,gw=10.1.10.1"
-  cloudinit_cdrom_storage = "Configs"
-  cicustom = "user=Configs:snippets/${var.name}-config.yaml"
+  cloudinit_cdrom_storage = "ISO"
+  cicustom = "user=ISO:snippets/${var.name}-config.yaml"
 
   force_recreate_on_change_of = sha1(local.user_data_yaml)
 

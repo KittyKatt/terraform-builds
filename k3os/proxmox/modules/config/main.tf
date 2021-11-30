@@ -34,6 +34,6 @@ resource "null_resource" "cloud_init_config_files" {
 
   provisioner "file" {
     source      = "../../templates/${var.name}-config.yaml"
-    destination = "/storage/configs/snippets/${var.name}-config.yaml"
+    destination = "/mnt/pve/ISO/snippets/${var.name}-config.yaml"
   }
 }
