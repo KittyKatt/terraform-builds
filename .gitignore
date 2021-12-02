@@ -6,6 +6,7 @@ swarm/proxmox/packer/config/swarm-packer.yml
 swarm/proxmox/packer/variables.pkrvars.hcl
 swarm/proxmox/ansible/
 swarm/proxmox/modules/config/templates/
+swarm/proxmox/modules/provision/
 swarm/proxmox fcos/
 k3os/proxmox/.terraform.lock.hcl
 k3os/proxmox/.terraform/
