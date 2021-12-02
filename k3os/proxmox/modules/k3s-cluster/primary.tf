@@ -18,7 +18,6 @@ module "k3s_primary" {
   k3s_server_url = "" # primary can omit this
   k3s_token      = local.node_token
   k3s_args       = [
-    "--disable=servicelb",
     "--disable=traefik",
     "--kube-apiserver-arg=token-auth-file=${local.k8s_token_file.path}",
   ]
