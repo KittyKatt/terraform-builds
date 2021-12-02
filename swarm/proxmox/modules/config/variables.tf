@@ -10,25 +10,28 @@ variable "manager" {
 }
 variable "mount_config" {
   type = list(object({
-    source = string,
+    source      = string,
     destination = string,
-    options = string
+    type        = string,
+    options     = string
   }))
 }
 variable "network_config" {
   type = object({
     config      = string
+    address     = string
     gateway     = string
     subnet      = string
     nameservers = list(string)
     domain      = string
   })
   default = {
-    config = null
-    gateway = null
-    subnet = null
+    config      = null
+    address     = null
+    gateway     = null
+    subnet      = null
     nameservers = null
-    domain = null
+    domain      = null
   }
 }
 variable "name" {
@@ -41,6 +44,22 @@ variable "smbuser" {
   type = string
 }
 variable "smbpass" {
-  type = string
+  type      = string
+  sensitive = true
+}
+variable "smbdomain" {
+  type      = string
+}
+
+variable "pve_host" {
+  type      = string
+  sensitive = true
+}
+variable "pve_user" {
+  type      = string
+  sensitive = true
+}
+variable "pve_password" {
+  type      = string
   sensitive = true
 }

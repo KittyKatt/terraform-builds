@@ -5,7 +5,7 @@ variable "proxmox_user" {
   type = string
 }
 variable "proxmox_pass" {
-  type = string
+  type      = string
   sensitive = true
 }
 variable "iso_checksum" {

@@ -1,10 +1,27 @@
+#cloud-config
 hostname: ${name}
+growpart:
+    mode: auto
+    devices: ["/"]
+    ignore_growroot_disabled: false
 packages:
-  - python3
-  - centos-release-ceph-octopus
-  - epel-release
+  - cifs-utils
+  - nfs-utils
 users:
   - default
+  - name: root
+%{ if length(ssh_key) != 0 ~}
+    ssh_authorized_keys:
+%{ for key in ssh_key ~}
+      - ${key}
+%{ endfor ~}
+%{ endif ~}
+%{ if length(ssh_id) != 0 ~}
+    ssh_import_id:
+%{ for id in ssh_id ~}
+      - ${id}
+%{ endfor ~}
+%{ endif ~}
   - name: docker
     gecos: Docker User
     lock-passwd: true
@@ -44,26 +61,20 @@ users:
 write_files:
   - path: /root/smb-creds
     content: |
-      username=${smbuser}
+      user=${smbuser}
       password=${smbpass}
+      domain=${smbdomain}
     owner: root:root
     permissionss: 0600
 mounts:
 %{ for mount_key, mount_value in mounts ~}
-  - [ "${mounts[mount_key].source}", ${mounts[mount_key].destination}, auto, "${mounts[mount_key].options}" ]
+  - [ "${mounts[mount_key].source}", ${mounts[mount_key].destination}, "${mounts[mount_key].type}", "${mounts[mount_key].options}" ]
 %{ endfor ~}
+final_message: "Finished configuring!"
 runcmd:
   - hostnamectl set-hostname ${name}
   - echo "My hostname is $(hostname)."
-  - /usr/bin/firewall-offline-cmd --add-port=2377/tcp
-  - /usr/bin/firewall-offline-cmd --add-port=7946/tcp
-  - /usr/bin/firewall-offline-cmd --add-port=7946/udp
-  - /usr/bin/firewall-offline-cmd --add-port=4789/udp
-  - /usr/bin/firewall-offline-cmd --add-port=80/tcp
-  - /usr/bin/firewall-offline-cmd --add-port=2003/tcp
-  - /usr/bin/firewall-offline-cmd --add-port=4505-4506/tcp
-  - /usr/bin/firewall-offline-cmd --add-port=6789/tcp
-  - /usr/sbin/setenforce 0
-  - /usr/bin/firewall-cmd --reload
-  - echo "Ports should now be open."
-  - /usr/sbin/setenforce 1
+%{ if network.config == "static" ~}
+  - systemctl restart systemd-networkd
+%{ endif ~}
+  - ip addr

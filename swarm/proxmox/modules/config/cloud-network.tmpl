@@ -1,19 +1,19 @@
 network:
   version: 1
-  config: ${config == "static" ? "static" : "dhcp"}
-  %{ if config = "static" }
+  config: ${network.config == "static" ? "static" : "dhcp"}
+  %{if network.config == "static"}
   - type: physical
     name: eth0
     subnets:
       - type: static
-        address: ${vm-ip-address}/${subnet}
-        gateway: ${gateway}
+        address: ${network.address}/${network.subnet}
+        gateway: ${network.gateway}
         dns_nameservers:
-          %{ for ns in nameservers ~}
+          %{ for ns in network.nameservers ~}
           - ${ns}
-          %{ endfor }
-        %{ if domain != "" }
+          %{ endfor ~}
+        %{ if network.domain != "" ~}
         dns_search:
-          - ${domain}
-        %{ endif }
-  %{ endif }
+          - ${network.domain}
+        %{ endif ~}
+  %{ endif ~}
