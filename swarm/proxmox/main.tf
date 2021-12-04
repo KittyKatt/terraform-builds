@@ -2,6 +2,7 @@ module "cluster" {
   source            = "./modules/cluster"
   primary_node_name = local.primary_node_name
   node_names        = local.node_names
+  configuration     = local.configuration
   smbusername       = var.smbusername
   smbpassword       = var.smbpassword
   smbdomain         = var.smbdomain
@@ -14,11 +15,16 @@ module "cluster" {
 }
 
 # module "provision" {
-#   depends_on       = [module.cluster]
-#   source           = "./modules/provision"
-#   configurations   = module.cluster.node-configs
-#   manager-hostname = local.primary_node_name
-#   manager-ip       = module.primary.primary_ipv4
-#   node-hostname    = local.node_names
-#   node-ip          = module.cluster.vm-address
+#   depends_on     = [module.cluster]
+#   source         = "./modules/provision"
+#   manager-config = module.cluster.manager-address
+#   node-configs   = local.configuration
+# }
+
+output "configuration" {
+  value = local.configuration
+}
+
+# output "node-address" {
+#   value = merge(module.cluster.manager-address, module.cluster.node-address)
 # }

@@ -46,9 +46,14 @@ module "workers" {
   pm_url       = var.pm_url
 }
 
-output "vm-address" {
+output "manager-address" {
+  value = {
+    (var.primary_node_name) = module.primary.primary_ipv4
+  }
+}
+output "node-address" {
   value = { for vm in var.node_names : vm => module.workers[vm].primary_ipv4 }
 }
 output "node-configs" {
-  value = local.configuration
+  value = var.configuration
 }

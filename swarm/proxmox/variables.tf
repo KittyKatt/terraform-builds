@@ -45,4 +45,48 @@ locals {
     "tymora2",
     "deneir2"
   ])
+  configuration = {
+    tyr2 = {
+      name   = "tyr2"
+      cpus   = 2,
+      memory = 4096,
+      job    = "Manager",
+      ip     = "10.1.10.61"
+    },
+    oghma2 = {
+      name   = "oghma2"
+      cpus   = 4,
+      memory = 8192,
+      job    = "Database",
+      ip     = "10.1.10.62"
+    },
+    grumbar2 = {
+      name   = "grumbar2"
+      cpus   = 4,
+      memory = 8192,
+      job    = "Web",
+      ip     = "10.1.10.63"
+    },
+    tymora2 = {
+      name   = "tymora2"
+      cpus   = 4,
+      memory = 4096,
+      job    = "Mail",
+      ip     = "10.1.10.64"
+    },
+    deneir2 = {
+      name   = "deneir2"
+      cpus   = 8,
+      memory = 8192,
+      job    = "Media",
+      ip     = "10.1.10.65"
+    },
+    helm2 = {
+      name   = "helm2"
+      cpus   = 2,
+      memory = 4096,
+      job    = "Source",
+      ip     = "10.1.10.66"
+    }
+  }
 }
