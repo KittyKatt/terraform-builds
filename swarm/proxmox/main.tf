@@ -18,12 +18,12 @@ module "cluster" {
   pm_url            = var.pm_url
 }
 
-# module "provision" {
-#   depends_on     = [module.cluster]
-#   source         = "./modules/provision"
-#   manager-config = module.cluster.manager-address
-#   node-configs   = local.configuration
-# }
+module "provision" {
+  depends_on     = [module.cluster]
+  source         = "./modules/provision"
+  manager-config = module.cluster.manager-address
+  node-configs   = local.configuration
+}
 
 output "configuration" {
   value = local.configuration
