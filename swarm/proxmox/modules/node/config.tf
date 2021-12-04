@@ -2,10 +2,10 @@ module "configuration" {
   source         = "../config"
   name           = var.name
   manager        = var.manager ? true : false
-  network_config = local.network
-  mount_config   = local.mounts
-  ssh_ids        = local.ssh_id
-  ssh_keys       = local.ssh_key
+  network_config = var.network_config
+  mount_config   = var.mount_config
+  ssh_ids        = var.ssh_ids
+  ssh_keys       = var.ssh_keys
   smbuser        = var.smbusername
   smbpass        = var.smbpassword
   smbdomain      = var.smbdomain

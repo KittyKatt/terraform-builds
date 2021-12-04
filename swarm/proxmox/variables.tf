@@ -36,6 +36,40 @@ variable "pve_password" {
   sensitive = true
 }
 
+variable "mount_config" {
+  description = "Mount configurations for cloud-config"
+  type = list(object({
+    source      = string,
+    destination = string,
+    type        = string,
+    options     = string
+  }))
+}
+variable "network_config" {
+  type = object({
+    config      = string
+    gateway     = string
+    subnet      = string
+    nameservers = list(string)
+    domain      = string
+  })
+  default = {
+    config      = null
+    gateway     = null
+    subnet      = null
+    nameservers = null
+    domain      = null
+  }
+}
+variable "ssh_keys" {
+  type = list
+  default = []
+}
+variable "ssh_ids" {
+  type = list
+  default = []
+}
+
 locals {
   primary_node_name = "tyr2"
   node_names        = toset([ 

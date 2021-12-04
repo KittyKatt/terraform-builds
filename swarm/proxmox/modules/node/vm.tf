@@ -12,7 +12,6 @@ terraform {
   experiments = [module_variable_optional_attrs]
 }
 
-
 resource "proxmox_vm_qemu" "swarm_node" {
   depends_on                   = [module.configuration]
   name                         = var.name
@@ -30,9 +29,9 @@ resource "proxmox_vm_qemu" "swarm_node" {
   os_type                      = "cloud-init"
   cloudinit_cdrom_storage      = "ISO"
   cicustom                     = "user=ISO:snippets/${var.name}-config.yml,meta=ISO:snippets/${var.name}-meta.yml"
-  nameserver                   = "${local.network.nameservers[0]}"
-  searchdomain                 = "${local.network.domain}"
-  ipconfig0                    = "ip=${local.network.address}/${local.network.subnet},gw=${local.network.gateway}"
+  nameserver                   = "${var.network_config.nameservers[0]}"
+  searchdomain                 = "${var.network_config.domain}"
+  ipconfig0                    = "ip=${var.vm_ip_addr}/${var.network_config.subnet},gw=${var.network_config.gateway}"
   #force_recreate_on_change_of = sha1(local.user_data_yaml)
   #define_connection_info      = false
   network {

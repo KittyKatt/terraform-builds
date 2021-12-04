@@ -1,9 +1,3 @@
-variable "ssh_ids" {
-  type = list
-}
-variable "ssh_keys" {
-  type = list
-}
 variable "manager" {
   type = bool
   default = false
@@ -19,7 +13,6 @@ variable "mount_config" {
 variable "network_config" {
   type = object({
     config      = string
-    address     = string
     gateway     = string
     subnet      = string
     nameservers = list(string)
@@ -27,12 +20,19 @@ variable "network_config" {
   })
   default = {
     config      = null
-    address     = null
     gateway     = null
     subnet      = null
     nameservers = null
     domain      = null
   }
+}
+variable "ssh_keys" {
+  type = list
+  default = []
+}
+variable "ssh_ids" {
+  type = list
+  default = []
 }
 variable "name" {
   type = string

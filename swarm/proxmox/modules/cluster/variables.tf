@@ -10,6 +10,39 @@ variable "configuration" {
   type = map(map(string))
 }
 
+variable "mount_config" {
+  type = list(object({
+    source      = string,
+    destination = string,
+    type        = string,
+    options     = string
+  }))
+}
+variable "network_config" {
+  type = object({
+    config      = string
+    gateway     = string
+    subnet      = string
+    nameservers = list(string)
+    domain      = string
+  })
+  default = {
+    config      = null
+    gateway     = null
+    subnet      = null
+    nameservers = null
+    domain      = null
+  }
+}
+variable "ssh_keys" {
+  type = list
+  default = []
+}
+variable "ssh_ids" {
+  type = list
+  default = []
+}
+
 variable "smbusername" {
   type      = string
   sensitive = true

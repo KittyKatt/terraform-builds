@@ -3,6 +3,10 @@ module "cluster" {
   primary_node_name = local.primary_node_name
   node_names        = local.node_names
   configuration     = local.configuration
+  network_config    = var.network_config
+  mount_config      = var.mount_config
+  ssh_keys          = var.ssh_keys
+  ssh_ids           = var.ssh_ids
   smbusername       = var.smbusername
   smbpassword       = var.smbpassword
   smbdomain         = var.smbdomain
