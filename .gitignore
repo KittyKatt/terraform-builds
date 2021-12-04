@@ -1,6 +1,8 @@
 swarm/xcp-ng/
 swarm/proxmox/.terraform.lock.hcl
 swarm/proxmox/.terraform/
+swarm/proxmox/terraform.tfstate
+swarm/proxmox/terraform.tfstate.backup
 swarm/proxmox/secrets.auto.tfvars
 swarm/proxmox/packer/config/swarm-packer.yml
 swarm/proxmox/packer/variables.pkrvars.hcl
