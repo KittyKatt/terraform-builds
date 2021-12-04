@@ -48,7 +48,9 @@ resource "proxmox_vm_qemu" "swarm_node" {
   }
   lifecycle {
     ignore_changes = [
-      full_clone
+      full_clone,
+      disk["size"],
+      disk["type"]
     ]
   }
 }
