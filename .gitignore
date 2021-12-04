@@ -1,13 +1,13 @@
 swarm/xcp-ng/
 swarm/proxmox/.terraform.lock.hcl
 swarm/proxmox/.terraform/
-swarm/proxmox/.secrets
+swarm/proxmox/secrets.auto.tfvars
 swarm/proxmox/packer/config/swarm-packer.yml
 swarm/proxmox/packer/variables.pkrvars.hcl
 swarm/proxmox/ansible/
 swarm/proxmox/modules/config/templates/
 swarm/proxmox/modules/provision/
-swarm/proxmox fcos/
+swarm/proxmox-fcos/
 k3os/proxmox/.terraform.lock.hcl
 k3os/proxmox/.terraform/
 k3os/proxmox/.secrets
