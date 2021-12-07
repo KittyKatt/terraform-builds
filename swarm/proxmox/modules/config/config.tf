@@ -1,9 +1,9 @@
-locals {
-  node_type = var.manager ? "manager" : "worker"
-}
+# locals {
+#   node_type = var.manager ? "manager" : "worker"
+# }
 
 data "template_file" "cloud" {
-  template = "${templatefile("${path.module}/cloud-config-${local.node_type}.tmpl", 
+  template = "${templatefile("${path.module}/cloud-config.tmpl", 
   {
     name      = var.name,
     mounts    = var.mount_config,
