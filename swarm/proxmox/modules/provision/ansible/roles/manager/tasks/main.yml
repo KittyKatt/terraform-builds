@@ -7,13 +7,20 @@
     packages:
       - cephadm
 
+- name: Test if Ceph has already been bootstrapped
+  command: file /etc/ceph/ceph.conf
+  register: cephfile
 - name: Bootstrap Ceph
   command: cephadm bootstrap --ssh-user cephuser --mon-ip {{ ansible_host }}
   register: bootstrap
-- debug: msg="{{ bootstrap.stdout }}"
+  when: cephfile is failed
 
+- name: Test if Docker Swarm has been initialized already
+  command: docker swarm join-token worker
+  register: swarminit
 - name: Initiate Docker Swarm
   command: docker swarm init
+  when: swarminit is failed
 
 - name: Get Ceph public key
   command: cat /etc/ceph/ceph.pub
