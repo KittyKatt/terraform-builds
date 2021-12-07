@@ -18,16 +18,18 @@ module "cluster" {
   pm_url            = var.pm_url
 }
 
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [module.cluster]
+
+  create_duration = "30s"
+}
+
 module "provision" {
-  depends_on     = [module.cluster]
+  depends_on     = [resource.time_sleep.wait_30_seconds]
   source         = "./modules/provision"
   manager-config = module.cluster.manager-address
   node-configs   = local.configuration
 }
-
-# output "configuration" {
-#   value = local.configuration
-# }
 
 output "node-address" {
   value = merge(module.cluster.manager-address, module.cluster.node-address)
