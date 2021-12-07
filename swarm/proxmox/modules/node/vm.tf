@@ -1,13 +1,3 @@
-
-terraform {
-  required_providers {
-    proxmox = {
-      source  = "Telmate/proxmox"
-      version = "2.8.0"
-    }
-  }
-}
-
 terraform {
   experiments = [module_variable_optional_attrs]
 }
@@ -23,7 +13,7 @@ resource "proxmox_vm_qemu" "swarm_node" {
   full_clone                   = false
   scsihw                       = "virtio-scsi-pci"
   boot                         = "c"
-  bootdisk                     = "virtio0"
+  bootdisk                     = "scsi0"
   onboot                       = true
   agent                        = 1
   os_type                      = "cloud-init"
@@ -40,7 +30,13 @@ resource "proxmox_vm_qemu" "swarm_node" {
     tag     = 10
   }
   disk {
-    type    = "virtio"
+    type    = "scsi"
+    storage = "VMDisks"
+    size    = "25G"
+    format  = "qcow2"
+  }
+  disk {
+    type    = "scsi"
     storage = "VMDisks"
     size    = "200G"
     format  = "qcow2"

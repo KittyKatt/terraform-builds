@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    proxmox = {
-      source  = "Telmate/proxmox"
-      version = "2.8.0"
-    }
-  }
-}
-
 module "primary" {
   source         = "../node"
   manager        = true
@@ -61,7 +52,4 @@ output "manager-address" {
 }
 output "node-address" {
   value = { for vm in var.node_names : vm => module.workers[vm].primary_ipv4 }
-}
-output "node-configs" {
-  value = var.configuration
 }
