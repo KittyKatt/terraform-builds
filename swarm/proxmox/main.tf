@@ -25,10 +25,10 @@ module "provision" {
   node-configs   = local.configuration
 }
 
-output "configuration" {
-  value = local.configuration
-}
-
-# output "node-address" {
-#   value = merge(module.cluster.manager-address, module.cluster.node-address)
+# output "configuration" {
+#   value = local.configuration
 # }
+
+output "node-address" {
+  value = merge(module.cluster.manager-address, module.cluster.node-address)
+}

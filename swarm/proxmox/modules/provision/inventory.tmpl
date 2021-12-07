@@ -4,14 +4,16 @@ all:
       hosts:
 %{ for node_key, node_values in node-configs ~}
 %{ if node-configs[node_key].job == "Manager" ~}
-        ${node-configs[node_key].name}:${node-configs[node_key].ip}
+        ${node-configs[node_key].name}:
+          ansible_host: ${node-configs[node_key].ip}
 %{ endif ~}
 %{ endfor ~}
     workers:
       hosts:
 %{ for node_key, node_values in node-configs ~}
 %{ if node-configs[node_key].job != "Manager" ~}
-        ${node-configs[node_key].name}:${node-configs[node_key].ip}
+        ${node-configs[node_key].name}:
+          ansible_host: ${node-configs[node_key].ip}
 %{ endif ~}
 %{ endfor ~}
 

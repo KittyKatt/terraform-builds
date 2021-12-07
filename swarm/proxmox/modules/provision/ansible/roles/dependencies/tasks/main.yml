@@ -1,0 +1,87 @@
+- name: Set PATH
+  lineinfile:
+    path: /home/cephuser/.bashrc
+    line: 'export PATH="$PATH:$HOME/.local/lib/python3.6/site-packages"'
+
+- name: Install remote filesystem tools
+  dnf:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - cifs-utils
+      - nfs-utils
+
+- name: Install Ceph Tools
+  dnf:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - ceph-common
+      - ceph-fuse
+      - python3-pip
+
+- name: Remove default Docker
+  dnf:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+      - docker
+      - docker-client
+      - docker-client-latest
+      - docker-common
+      - docker-latest
+      - docker-latest-logrotate
+      - docker-logroteate
+      - docker-selinux
+      - docker-engine-selinux
+      - docker-engine
+
+- name: Add Docker official repository
+  yum_repository:
+    name: docker
+    description: Docker CE Stable - $basearch
+    gpgcheck: true
+    gpgkey: https://download.docker.com/linux/fedora/gpg
+    enabled: true
+    baseurl: https://download.docker.com/linux/fedora/$releasever/$basearch/stable
+
+- name: Install Docker
+  dnf:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+- name: Register uname -s output
+  command: uname -s
+  register: uname_s  
+- name: Register uname -m output
+  command: uname -m
+  register: uname_m
+
+- name: Get Docker-compose
+  get_url: 
+    url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }}
+    dest: /usr/local/bin/docker-compose
+
+- name: Make docker-compose executable
+  command: chmod +x /usr/local/bin/docker-compose
+
+- name: Enable Docker service
+  systemd:
+    name: docker
+    enabled: yes
+
+- name: Start Docker service
+  systemd:
+    name: docker
+    state: started
+
+- name: Install python-consul
+  pip:
+    executable: /bin/pip3
+    name: python-consul
+    extra_args: --user

@@ -1,0 +1,60 @@
+
+
+- name: Install Ceph administration tools
+  dnf:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - cephadm
+
+- name: Bootstrap Ceph
+  command: cephadm bootstrap --ssh-user cephuser --mon-ip {{ ansible_host }}
+  register: bootstrap
+- debug: msg="{{ bootstrap.stdout }}"
+
+- name: Initiate Docker Swarm
+  command: docker swarm init
+
+- name: Get Ceph public key
+  command: cat /etc/ceph/ceph.pub
+  register: cephkey
+- name: Inject Ceph public key in Consul
+  community.general.consul_kv:
+    host: "{{ consul_host }}"
+    port: "{{ consul_port }}"
+    validate_certs: no
+    key: ceph-public-key
+    value: "{{ cephkey.stdout }}"
+
+- name: Get Ceph client key
+  command: cat /etc/ceph/ceph.client.admin.keyring
+  register: cephclientkey
+- name: Inject Ceph client key in Consul
+  community.general.consul_kv:
+    host: "{{ consul_host }}"
+    port: "{{ consul_port }}"
+    validate_certs: no
+    key: ceph-client-key
+    value: "{{ cephclientkey.stdout }}"
+
+- name: Get Ceph conf
+  command: cat /etc/ceph/ceph.conf
+  register: cephconf
+- name: Inject Ceph conf in Consul
+  community.general.consul_kv:
+    host: "{{ consul_host }}"
+    port: "{{ consul_port }}"
+    validate_certs: no
+    key: ceph-conf
+    value: "{{ cephconf.stdout }}"
+
+- name: Get Docker Swarm join token
+  command: docker swarm join-token manager -q
+  register: swarmtoken
+- name: Inject Docker Swarm join token in Consul
+  community.general.consul_kv:
+    host: "{{ consul_host }}"
+    port: "{{ consul_port }}"
+    validate_certs: no
+    key: swarm-token
+    value: "{{ swarmtoken.stdout }}"

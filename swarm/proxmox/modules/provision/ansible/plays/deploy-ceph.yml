@@ -1,0 +1,69 @@
+- name: add-node-to-cluster
+  hosts: manager
+  become: yes
+  tasks:
+    - name: Build /etc/hosts
+      lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_host }} {{item}}" state=present
+      when: hostvars[item].ansible_host is defined
+      with_items: "{{ groups['all'] }}"
+    - name: Create known_hosts
+      file:
+        path: /home/cephuser/.ssh/known_hosts
+        state: touch
+    - name: SSH scan all host keys
+      with_items: "{{ groups['workers'] }}"
+      command: ssh-keyscan -t rsa {{ item }} >> /home/cephuser/.ssh/known_hosts
+    - name: Add nodes to ceph cluster
+      command: ceph orch host add {{ item }} {{ hostvars[item].ansible_host }}
+      with_items: "{{ groups['workers'] }}"
+    - name: Apply OSD to all unpartitioned devices
+      command: ceph orch apply osd --all-available-devices
+
+    - name: Create CephFS volume
+      command: ceph fs volume create storage
+    - name: Wait for CephFS volume availability
+      command: ceph -s
+      register: ceph_status_output
+      until: ceph_status_output.stdout.find("HEALTH_OK") != -1
+      retries: 30
+      delay: 30
+
+
+
+- name: manager-mount-fs
+  hosts: manager
+  become: yes
+  tasks:
+    - name: Create commad-delimited list of node names
+      set_fact: 
+        node_list: "{{ groups['all'] | join(',') }}"
+    - name: Create /storage directory
+      file:
+        path: /storage
+        state: directory
+    - name: Mount CephFS volume
+      ansible.posix.mount:
+        path: /storage
+        src: "{{ node_list }}:/"
+        fstype: ceph
+        opts: name=admin,noatime,_netdev
+        state: mounted
+
+- name: node-mount-fs
+  hosts: workers
+  become: yes
+  tasks:
+    - name: Create commad-delimited list of node names
+      set_fact: 
+        node_list: "{{ groups['all'] | join(',') }}"
+    - name: Create /storage directory
+      file:
+        path: /storage
+        state: directory
+    - name: Mount CephFS volume
+      ansible.posix.mount:
+        path: /storage
+        src: "{{ node_list }}:/"
+        fstype: ceph
+        opts: name=admin,noatime,_netdev
+        state: mounted

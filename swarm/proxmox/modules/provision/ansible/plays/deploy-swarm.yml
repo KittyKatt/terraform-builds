@@ -1,0 +1,20 @@
+- hosts: all
+  become: yes
+  name: deploy dependencies
+  roles:
+    - role: '../roles/dependencies'
+
+- hosts: manager
+  become: yes
+  name: Configure manager node
+  roles:
+    - role: '../roles/manager'
+
+- hosts: workers
+  become: yes
+  name: Configure worker nodes
+  roles:
+    - role: '../roles/worker'
+
+- name: Deployment of Ceph cluster
+  import_playbook: deploy-ceph.yml

@@ -1,0 +1,76 @@
+- name: Create Ceph configuration directory
+  file:
+    path: /etc/ceph
+    state: directory
+
+- name: Install python-consul
+  pip:
+    executable: /bin/pip
+    name: python-consul
+
+- name: Install LVM2
+  dnf:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - lvm2
+
+- name: Get Ceph key from Consul
+  community.general.consul_kv:
+    host: "{{ consul_host }}"
+    port: "{{ consul_port }}"
+    validate_certs: no
+    key: ceph-public-key
+  register: get_ceph_public_key
+
+- name: Get Ceph client key from Consul
+  community.general.consul_kv:
+    host: "{{ consul_host }}"
+    port: "{{ consul_port }}"
+    validate_certs: no
+    key: ceph-client-key
+  register: get_ceph_client_key
+
+- name: Get Ceph conf from Consul
+  community.general.consul_kv:
+    host: "{{ consul_host }}"
+    port: "{{ consul_port }}"
+    validate_certs: no
+    key: ceph-conf
+  register: get_ceph_conf
+
+- name: Get Ceph client key from Consul
+  community.general.consul_kv:
+    host: "{{ consul_host }}"
+    port: "{{ consul_port }}"
+    validate_certs: no
+    key: swarm-token
+  register: get_swarm_token
+
+- name: Inject Ceph key into cephuser's authorized SSH keys
+  lineinfile:
+    path: /home/cephuser/.ssh/authorized_keys
+    line: "{{ get_ceph_public_key.data.Value }}"
+- name: Install Ceph client key
+  copy:
+    content: "{{ get_ceph_client_key.data.Value }}"
+    dest: /etc/ceph/ceph.client.admin.keyring
+- name: Install Ceph conf
+  copy:
+    content: "{{ get_ceph_conf.data.Value }}"
+    dest: /etc/ceph/ceph.conf
+
+- name: Build /etc/hosts
+  lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ hostvars[item].ansible_host }} {{item}}" state=present
+  when: hostvars[item].ansible_host is defined
+  with_items: "{{ groups['all'] }}"
+
+- name: Fix Ceph conf to be Unix-compatible
+  command: sed -i -e '$s/\([^\r]\)$/\1\r\n/' /etc/ceph/ceph.conf
+- name: Fix Ceph keyring to be Unix-compatible
+  command: sed -i -e '$s/\([^\r]\)$/\1\r\n/' /etc/ceph/ceph.client.admin.keyring
+
+- name: Join Docker Swarm
+  command: docker swarm join --token "{{ get_swarm_token.data.Value }}" {{ groups['manager'] }}:2377
+  register: swarmjoin
+- debug: msg="{{ swarmjoin.stdout }}"
