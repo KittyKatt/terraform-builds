@@ -18,14 +18,8 @@ module "cluster" {
   pm_url            = var.pm_url
 }
 
-resource "time_sleep" "wait_30_seconds" {
-  depends_on = [module.cluster]
-
-  create_duration = "30s"
-}
-
 module "provision" {
-  depends_on     = [resource.time_sleep.wait_30_seconds]
+  depends_on     = [resource.null_resource.connection-wait]
   source         = "./modules/provision"
   manager-config = module.cluster.manager-address
   node-configs   = local.configuration

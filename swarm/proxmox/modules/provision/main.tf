@@ -10,3 +10,10 @@ resource "null_resource" "deploy-ceph" {
     command = "ANSIBLE_CONFIG=${path.module}/ansible.cfg ansible-playbook -u cephuser -i ${path.module}/inventory.yml ${path.module}/ansible/plays/deploy-ceph.yml"
   }
 }
+
+resource "null_resource" "finalize" {
+  depends_on = [resource.null_resource.deploy-ceph]
+  provisioner "local-exec" {
+    command = "ANSIBLE_CONFIG=${path.module}/ansible.cfg ansible-playbook -u cephuser -i ${path.module}/inventory.yml ${path.module}/ansible/plays/finalize.yml"
+  }
+}

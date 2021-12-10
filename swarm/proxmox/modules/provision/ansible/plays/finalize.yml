@@ -1,0 +1,7 @@
+- name: Assign Swarm node labels
+  hosts: manager
+  become: yes
+  tasks:
+    - name: Assign Docker Swarm node labels
+      command: docker node update --label-add job={{ hostvars[item].swarm_job }} {{ item }}
+      with_items: "{{ groups['all'] }}"

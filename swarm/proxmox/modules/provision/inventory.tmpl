@@ -6,6 +6,7 @@ all:
 %{ if node-configs[node_key].job == "Manager" ~}
         ${node-configs[node_key].name}:
           ansible_host: ${node-configs[node_key].ip}
+          swarm_job: ${node-configs[node_key].job}
 %{ endif ~}
 %{ endfor ~}
     workers:
@@ -14,6 +15,7 @@ all:
 %{ if node-configs[node_key].job != "Manager" ~}
         ${node-configs[node_key].name}:
           ansible_host: ${node-configs[node_key].ip}
+          swarm_job: ${node-configs[node_key].job}
 %{ endif ~}
 %{ endfor ~}
 

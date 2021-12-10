@@ -18,7 +18,6 @@
       with_items: "{{ groups['workers'] }}"
     - name: Apply OSD to all unpartitioned devices
       command: ceph orch apply osd --all-available-devices
-
     - name: Create CephFS volume
       command: ceph fs volume create storage
     - name: Wait for CephFS volume availability
@@ -28,8 +27,6 @@
       retries: 30
       delay: 30
 
-
-
 - name: manager-mount-fs
   hosts: manager
   become: yes
@@ -37,10 +34,14 @@
     - name: Create commad-delimited list of node names
       set_fact: 
         node_list: "{{ groups['all'] | join(',') }}"
+    - name: Test if /storage exists
+      command: ls /storage
+      register: storagedir
     - name: Create /storage directory
       file:
         path: /storage
         state: directory
+      when: storagedir is failed
     - name: Mount CephFS volume
       ansible.posix.mount:
         path: /storage
