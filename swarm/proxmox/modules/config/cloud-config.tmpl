@@ -63,6 +63,11 @@ write_files:
       domain=${smbdomain}
     owner: root:root
     permissionss: 0600
+  - path: /etc/dnf/dnf.conf
+    content: |
+      max_parallel_downloads=10
+      fastestmirror=true
+    append: true
 mounts:
 %{ for mount_key, mount_value in mounts ~}
   - [ "${mounts[mount_key].source}", ${mounts[mount_key].destination}, "${mounts[mount_key].type}", "${mounts[mount_key].options}" ]
