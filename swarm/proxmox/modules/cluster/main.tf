@@ -7,6 +7,7 @@ module "primary" {
   vm_cpu_n       = lookup(var.configuration[var.primary_node_name],"cpus")
   vm_mem_n       = lookup(var.configuration[var.primary_node_name],"memory")
   vm_ip_addr     = lookup(var.configuration[var.primary_node_name],"ip")
+  vm_ceph_ip     = lookup(var.configuration[var.primary_node_name],"ceph")
   vm_job         = lookup(var.configuration[var.primary_node_name],"job")
   ssh_keys       = var.ssh_keys
   ssh_ids        = var.ssh_ids
@@ -31,6 +32,7 @@ module "workers" {
   vm_cpu_n       = lookup(var.configuration[each.key],"cpus")
   vm_mem_n       = lookup(var.configuration[each.key],"memory")
   vm_ip_addr     = lookup(var.configuration[each.key],"ip")
+  vm_ceph_ip     = lookup(var.configuration[each.key],"ceph")
   vm_job         = lookup(var.configuration[each.key],"job")
   ssh_keys       = var.ssh_keys
   ssh_ids        = var.ssh_ids

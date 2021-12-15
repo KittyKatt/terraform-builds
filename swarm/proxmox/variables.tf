@@ -71,56 +71,85 @@ variable "ssh_ids" {
 }
 
 locals {
-  primary_node_name = "tyr2"
+  primary_node_name = "tyr"
   node_names        = toset([ 
-    "oghma2",
-    "grumbar2",
-    "helm2",
-    "tymora2",
-    "deneir2"
+    "oghma",
+    "grumbar",
+    "helm",
+    "tymora",
+    "deneir",
+    "gond"
   ])
   configuration = {
-    tyr2 = {
-      name   = "tyr2"
-      cpus   = 2,
-      memory = 4096,
-      job    = "Manager",
-      ip     = "10.1.10.61"
+    tyr = {
+      name    = "tyr"
+      primary = true
+      cpus    = 4
+      memory  = 8192
+      role    = "Manager"
+      job     = "Light"
+      ceph    = "10.1.10.81"
+      ip      = "10.1.10.61"
     },
-    oghma2 = {
-      name   = "oghma2"
-      cpus   = 4,
-      memory = 8192,
-      job    = "Database",
-      ip     = "10.1.10.62"
+    oghma = {
+      name    = "oghma"
+      primary = false
+      cpus    = 8
+      memory  = 16284
+      role    = "Manager"
+      job     = "Heavy"
+      ceph    = "10.1.10.82"
+      ip      = "10.1.10.62"
     },
-    grumbar2 = {
-      name   = "grumbar2"
-      cpus   = 4,
-      memory = 8192,
-      job    = "Web",
-      ip     = "10.1.10.63"
+    grumbar = {
+      name    = "grumbar"
+      primary = false
+      cpus    = 4
+      memory  = 8192
+      role    = "Manager"
+      job     = "Light"
+      ceph    = "10.1.10.83"
+      ip      = "10.1.10.63"
     },
-    tymora2 = {
-      name   = "tymora2"
-      cpus   = 4,
-      memory = 4096,
-      job    = "Mail",
-      ip     = "10.1.10.64"
+    tymora = {
+      name    = "tymora"
+      primary = false
+      cpus    = 4
+      memory  = 8192
+      role    = "Worker"
+      job     = "Light"
+      ceph    = "10.1.10.84"
+      ip      = "10.1.10.64"
     },
-    deneir2 = {
-      name   = "deneir2"
-      cpus   = 8,
-      memory = 8192,
-      job    = "Media",
-      ip     = "10.1.10.65"
+    deneir = {
+      name    = "deneir"
+      primary = false
+      cpus    = 8
+      memory  = 16284
+      role    = "Worker"
+      job     = "Heavy"
+      ceph    = "10.1.10.85"
+      ip      = "10.1.10.65"
     },
-    helm2 = {
-      name   = "helm2"
-      cpus   = 2,
-      memory = 4096,
-      job    = "Source",
-      ip     = "10.1.10.66"
+    helm = {
+      name    = "helm"
+      primary = false
+      cpus    = 8
+      memory  = 16284
+      role    = "Worker"
+      job     = "Heavy"
+      ceph    = "10.1.10.86"
+      ip      = "10.1.10.66"
+    }
+    gond = {
+      name    = "gond"
+      primary = false
+      cpus    = 4
+      memory  = 8192
+      role    = "Worker"
+      job     = "Light"
+      ceph    = "10.1.10.87"
+      ip      = "10.1.10.67"
     }
   }
 }

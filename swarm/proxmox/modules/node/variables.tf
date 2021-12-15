@@ -84,6 +84,10 @@ variable "vm_ip_addr" {
   type    = string
   default = null
 }
+variable "vm_ceph_ip" {
+  type    = string
+  default = null
+}
 variable "vm_job" {
   type    = string
   default = null
