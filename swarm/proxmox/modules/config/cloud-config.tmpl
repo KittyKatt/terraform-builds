@@ -70,7 +70,7 @@ write_files:
     append: true
 mounts:
 %{ for mount_key, mount_value in mounts ~}
-  - [ "${mounts[mount_key].source}", ${mounts[mount_key].destination}, "${mounts[mount_key].type}", "${mounts[mount_key].options}" ]
+  - [ "${mounts[mount_key].source}", ${mounts[mount_key].destination}, "${mounts[mount_key].type}", "${mounts[mount_key].options}", "0", "0" ]
 %{ endfor ~}
 final_message: "Finished configuring!"
 runcmd:
