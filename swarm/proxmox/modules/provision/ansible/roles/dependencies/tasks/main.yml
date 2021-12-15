@@ -62,10 +62,15 @@
   command: uname -m
   register: uname_m
 
+- name: Check if docker-compose exists
+  command: file /usr/local/bin/docker-compose
+  register: dockercomposeexist
+  ignore_errors: true
 - name: Get Docker-compose
   get_url: 
     url: https://github.com/docker/compose/releases/download/1.29.2/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }}
     dest: /usr/local/bin/docker-compose
+  when: dockercomposeexist is failed
 
 - name: Make docker-compose executable
   command: chmod +x /usr/local/bin/docker-compose

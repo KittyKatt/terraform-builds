@@ -8,18 +8,20 @@
       - cephadm
 
 - name: Test if Ceph has already been bootstrapped
-  command: file /etc/ceph/ceph.conf
-  register: cephfile
+  command: ceph -s
+  register: cephstat
+  ignore_errors: true
 - name: Bootstrap Ceph
-  command: cephadm bootstrap --ssh-user cephuser --mon-ip {{ ansible_host }}
+  command: cephadm bootstrap --ssh-user cephuser --mon-ip {{ hostvars[inventory_hostname].ceph_ip }}
   register: bootstrap
-  when: cephfile is failed
+  when: cephstat is failed
 
 - name: Test if Docker Swarm has been initialized already
   command: docker swarm join-token worker
   register: swarminit
+  ignore_errors: yes
 - name: Initiate Docker Swarm
-  command: docker swarm init
+  command: docker swarm init --advertise-addr {{ hostvars[inventory_hostname].ceph_ip }}
   when: swarminit is failed
 
 - name: Get Ceph public key
@@ -55,13 +57,24 @@
     key: ceph-conf
     value: "{{ cephconf.stdout }}"
 
-- name: Get Docker Swarm join token
+- name: Get Docker Swarm manager join token
   command: docker swarm join-token manager -q
   register: swarmtoken
-- name: Inject Docker Swarm join token in Consul
+- name: Inject Docker Swarm manager join token in Consul
   community.general.consul_kv:
     host: "{{ consul_host }}"
     port: "{{ consul_port }}"
     validate_certs: no
     key: swarm-token
     value: "{{ swarmtoken.stdout }}"
+
+- name: Get Docker Swarm worker join token
+  command: docker swarm join-token worker -q
+  register: swarmtokenworker
+- name: Inject Docker Swarm worker join token in Consul
+  community.general.consul_kv:
+    host: "{{ consul_host }}"
+    port: "{{ consul_port }}"
+    validate_certs: no
+    key: swarm-token-worker
+    value: "{{ swarmtokenworker.stdout }}"
