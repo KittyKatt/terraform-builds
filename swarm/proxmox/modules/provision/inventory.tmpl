@@ -3,19 +3,23 @@ all:
     manager:
       hosts:
 %{ for node_key, node_values in node-configs ~}
-%{ if node-configs[node_key].job == "Manager" ~}
+%{ if node-configs[node_key].primary ~}
         ${node-configs[node_key].name}:
           ansible_host: ${node-configs[node_key].ip}
           swarm_job: ${node-configs[node_key].job}
+          swarm_role: ${node-configs[node_key].role}
+          ceph_ip: ${node-configs[node_key].ceph}
 %{ endif ~}
 %{ endfor ~}
     workers:
       hosts:
 %{ for node_key, node_values in node-configs ~}
-%{ if node-configs[node_key].job != "Manager" ~}
+%{ if ! node-configs[node_key].primary ~}
         ${node-configs[node_key].name}:
           ansible_host: ${node-configs[node_key].ip}
           swarm_job: ${node-configs[node_key].job}
+          swarm_role: ${node-configs[node_key].role}
+          ceph_ip: ${node-configs[node_key].ceph}
 %{ endif ~}
 %{ endfor ~}
 
