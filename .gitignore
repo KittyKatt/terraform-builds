@@ -21,3 +21,4 @@ k3os/vsphere/.terraform.lock.hcl
 k3os/vsphere/.secrets
 k3os/vsphere/packer/variables.pkrvars.hcl
 templates/
+swarm/proxmox/.terraform.tfstate.lock.info
