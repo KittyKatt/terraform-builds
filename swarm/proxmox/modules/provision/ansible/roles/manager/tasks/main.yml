@@ -12,7 +12,7 @@
   register: cephstat
   ignore_errors: true
 - name: Bootstrap Ceph
-  command: cephadm bootstrap --ssh-user cephuser --mon-ip {{ hostvars[inventory_hostname].ceph_ip }}
+  command: cephadm bootstrap --ssh-user cephuser --mon-ip {{ hostvars[inventory_hostname].ceph_ip }} --cluster-network {{ cluster_network }}
   register: bootstrap
   when: cephstat is failed
 

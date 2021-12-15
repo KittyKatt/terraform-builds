@@ -52,6 +52,7 @@ variable "network_config" {
     subnet      = string
     nameservers = list(string)
     domain      = string
+    ceph_subnet = string
   })
 }
 variable "ssh_keys" {

@@ -24,7 +24,7 @@ resource "proxmox_vm_qemu" "swarm_node" {
   nameserver                   = "${var.network_config.nameservers[0]}"
   searchdomain                 = "${var.network_config.domain}"
   ipconfig0                    = "ip=${var.vm_ip_addr}/${var.network_config.subnet},gw=${var.network_config.gateway}"
-  ipconfig1                    = "ip=${var.vm_ceph_ip}/${var.network_config.subnet},gw=${var.network_config.gateway}"
+  ipconfig1                    = "ip=${var.vm_ceph_ip}/${var.network_config.ceph_subnet}"
   #force_recreate_on_change_of = sha1(local.user_data_yaml)
   #define_connection_info      = false
   network {

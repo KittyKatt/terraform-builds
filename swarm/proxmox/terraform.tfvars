@@ -4,6 +4,7 @@ network_config = {
     subnet      = "24"
     nameservers = ["10.1.10.59", "10.1.10.1"]
     domain      = "kittykatt.co"
+    ceph_subnet = "28"
   }
 mount_config = [
     {

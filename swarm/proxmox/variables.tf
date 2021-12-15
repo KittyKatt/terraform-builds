@@ -52,14 +52,8 @@ variable "network_config" {
     subnet      = string
     nameservers = list(string)
     domain      = string
+    ceph_subnet = string
   })
-  default = {
-    config      = null
-    gateway     = null
-    subnet      = null
-    nameservers = null
-    domain      = null
-  }
 }
 variable "ssh_keys" {
   type = list
@@ -88,7 +82,7 @@ locals {
       memory  = 8192
       role    = "Manager"
       job     = "Light"
-      ceph    = "10.1.10.81"
+      ceph    = "172.18.20.1"
       ip      = "10.1.10.61"
     },
     oghma = {
@@ -98,7 +92,7 @@ locals {
       memory  = 16284
       role    = "Manager"
       job     = "Heavy"
-      ceph    = "10.1.10.82"
+      ceph    = "172.18.20.2"
       ip      = "10.1.10.62"
     },
     grumbar = {
@@ -108,7 +102,7 @@ locals {
       memory  = 8192
       role    = "Manager"
       job     = "Light"
-      ceph    = "10.1.10.83"
+      ceph    = "172.18.20.3"
       ip      = "10.1.10.63"
     },
     tymora = {
@@ -118,7 +112,7 @@ locals {
       memory  = 8192
       role    = "Worker"
       job     = "Light"
-      ceph    = "10.1.10.84"
+      ceph    = "172.18.20.4"
       ip      = "10.1.10.64"
     },
     deneir = {
@@ -128,7 +122,7 @@ locals {
       memory  = 16284
       role    = "Worker"
       job     = "Heavy"
-      ceph    = "10.1.10.85"
+      ceph    = "172.18.20.5"
       ip      = "10.1.10.65"
     },
     helm = {
@@ -138,7 +132,7 @@ locals {
       memory  = 16284
       role    = "Worker"
       job     = "Heavy"
-      ceph    = "10.1.10.86"
+      ceph    = "172.18.20.6"
       ip      = "10.1.10.66"
     }
     gond = {
@@ -148,7 +142,7 @@ locals {
       memory  = 8192
       role    = "Worker"
       job     = "Light"
-      ceph    = "10.1.10.87"
+      ceph    = "172.18.20.7"
       ip      = "10.1.10.67"
     }
   }

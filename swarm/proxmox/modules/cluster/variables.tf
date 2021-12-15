@@ -25,6 +25,7 @@ variable "network_config" {
     subnet      = string
     nameservers = list(string)
     domain      = string
+    ceph_subnet = string
   })
   default = {
     config      = null
