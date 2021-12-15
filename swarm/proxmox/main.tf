@@ -10,6 +10,7 @@ module "cluster" {
   smbusername       = var.smbusername
   smbpassword       = var.smbpassword
   smbdomain         = var.smbdomain
+  proxmox_hosts     = var.proxmox_hosts
   pve_user          = var.pve_user
   pve_host          = var.pve_host
   pve_password      = var.pve_password

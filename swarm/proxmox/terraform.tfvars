@@ -1,3 +1,7 @@
+proxmox_hosts = [
+  "abeir",
+  "toril"
+]
 network_config = {
     config      = "static"
     gateway     = "10.1.10.1"

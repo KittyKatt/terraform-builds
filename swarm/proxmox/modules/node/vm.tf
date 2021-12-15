@@ -2,10 +2,15 @@ terraform {
   experiments = [module_variable_optional_attrs]
 }
 
+resource "random_shuffle" "target_node" {
+  input        = var.proxmox_hosts
+  result_count = 1
+}
+
 resource "proxmox_vm_qemu" "swarm_node" {
   depends_on                   = [module.configuration]
   name                         = var.name
-  target_node                  = "toril"
+  target_node                  = random_shuffle.target_node.result[0]
   cores                        = var.vm_cpu_n
   sockets                      = 1
   memory                       = var.vm_mem_n

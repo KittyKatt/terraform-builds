@@ -12,6 +12,10 @@ variable "smbdomain" {
   sensitive = true
 }
 
+variable "proxmox_hosts" {
+  type    = list
+  default = []
+}
 variable "pm_password" {
   type = string
   sensitive = true

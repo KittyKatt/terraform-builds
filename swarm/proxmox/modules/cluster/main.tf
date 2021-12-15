@@ -14,6 +14,7 @@ module "primary" {
   smbpassword    = var.smbpassword
   smbusername    = var.smbusername
   smbdomain      = var.smbdomain
+  proxmox_hosts  = var.proxmox_hosts
   pve_user       = var.pve_user
   pve_host       = var.pve_host
   pve_password   = var.pve_password
@@ -39,6 +40,7 @@ module "workers" {
   smbpassword    = var.smbpassword
   smbusername    = var.smbusername
   smbdomain      = var.smbdomain
+  proxmox_hosts  = var.proxmox_hosts
   pve_user       = var.pve_user
   pve_host       = var.pve_host
   pve_password   = var.pve_password

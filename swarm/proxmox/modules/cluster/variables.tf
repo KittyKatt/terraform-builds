@@ -27,13 +27,6 @@ variable "network_config" {
     domain      = string
     ceph_subnet = string
   })
-  default = {
-    config      = null
-    gateway     = null
-    subnet      = null
-    nameservers = null
-    domain      = null
-  }
 }
 variable "ssh_keys" {
   type = list
@@ -60,6 +53,10 @@ variable "smbdomain" {
   default   = null
 }
 
+variable "proxmox_hosts" {
+  type    = list
+  default = []
+}
 variable "pm_password" {
   type      = string
   sensitive = true
