@@ -16,5 +16,8 @@
   roles:
     - role: '../roles/worker'
 
-- name: Deployment of Ceph cluster
-  import_playbook: deploy-ceph.yml
+# - name: Deployment of Ceph cluster
+#   import_playbook: deploy-ceph.yml
+
+# - name: Finalize node installations
+#   import_playbook: finalize.yml
