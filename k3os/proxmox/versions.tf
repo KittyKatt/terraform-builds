@@ -9,3 +9,5 @@ terraform {
       version = "0.0.23"
     }
   }
+}
+
