@@ -7,3 +7,11 @@ provider "proxmox" {
 provider "remote" {
   max_sessions = 2
 }
+provider "kubernetes" {
+  config_path = "${path.root}/kubeconfig"
+}
+provider "helm" {
+  kubernetes {
+    config_path = "${path.root}/kubeconfig"
+  }
+}
