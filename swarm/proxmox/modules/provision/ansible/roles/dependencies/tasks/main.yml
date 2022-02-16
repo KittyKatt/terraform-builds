@@ -63,7 +63,7 @@
   register: uname_m
 
 - name: Check if docker-compose exists
-  command: file /usr/local/bin/docker-compose
+  command: ls /usr/local/bin/docker-compose
   register: dockercomposeexist
   ignore_errors: true
 - name: Get Docker-compose

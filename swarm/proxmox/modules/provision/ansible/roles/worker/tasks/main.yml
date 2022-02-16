@@ -93,4 +93,4 @@
   when: 
     - hostvars[inventory_hostname].swarm_role == "Worker"
     - 'dockerinfo.stdout.find("Swarm: active") == -1'
-- debug: msg="{{ swarmjoin.stdout }}"
+# - debug: msg="{{ swarmjoin.stdout }}"
