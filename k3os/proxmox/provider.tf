@@ -4,4 +4,6 @@ provider "proxmox" {
   pm_user = var.pm_user
   pm_password = var.pm_password
 }
-
+provider "remote" {
+  max_sessions = 2
+}
