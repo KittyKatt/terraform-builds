@@ -26,3 +26,4 @@ swarm/proxmox/.terraform.tfstate.lock.info
 k3os/proxmox/terraform.tfstate
 k3os/proxmox/terraform.tfstate.backup
 k3os/proxmox/kubeconfig
+k3os/proxmox/.terraform.tfstate.lock.info
