@@ -6,8 +6,3 @@ terraform {
     }
   }
 }
-
-resource "random_shuffle" "target_host" {
-  input        = var.proxmox_hosts
-  result_count = 1
-}

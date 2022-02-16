@@ -9,22 +9,23 @@ variable "pve_user" {
 variable "pve_password" {
   type = string
 }
-variable "pve_host" {
-  type = string
+variable "proxmox_hosts" {
+  type    = list
+  default = []
 }
 
-locals {
-  gateway     = "10.1.10.1"
-  netmask     = "255.255.255.0"
-  nameservers = "10.1.10.59,10.1.10.1"
-}
+# locals {
+#   gateway     = "10.1.10.1"
+#   netmask     = "255.255.255.0"
+#   nameservers = "10.1.10.59,10.1.10.1"
+# }
 
-locals {
-  node_names = toset([
-    "dumathoin",
-    "abbathor"
-  ])
-}
+# locals {
+#   node_names = toset([
+#     "dumathoin",
+#     "abbathor"
+#   ])
+# }
 
 variable "node_configs" {
   type = map

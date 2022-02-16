@@ -1,23 +1,3 @@
-variable "content" {
-  type = string
-}
-variable "name" {
-  type = string
-}
-
-variable "pve_user" {
-  type = string
-  sensitive = true
-}
-variable "pve_password" {
-  type = string
-  sensitive = true
-}
-variable "pve_host" {
-  type = string
-  sensitive = true
-}
-
 resource "local_file" "cloud_init" {
   content = var.content
   filename = "../../templates/${var.name}-config.yaml"
@@ -29,7 +9,7 @@ resource "null_resource" "cloud_init_config_files" {
     type     = "ssh"
     user     = var.pve_user
     password = var.pve_password
-    host     = var.pve_host
+    host     = var.target_host
   }
 
   provisioner "file" {

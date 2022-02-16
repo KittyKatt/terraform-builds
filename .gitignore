@@ -16,8 +16,6 @@ k3os/proxmox/.terraform.lock.hcl
 k3os/proxmox/.terraform/
 k3os/proxmox/.secrets
 k3os/proxmox/secrets.auto.tfvars
-k3os/proxmox/terraform.tfstate
-k3os/proxmox/terraform.tfstate.backup
 k3os/proxmox/packer/variables.pkrvars.hcl
 k3os/vsphere/.terraform/
 k3os/vsphere/.terraform.lock.hcl
@@ -25,3 +23,6 @@ k3os/vsphere/.secrets
 k3os/vsphere/packer/variables.pkrvars.hcl
 templates/
 swarm/proxmox/.terraform.tfstate.lock.info
+k3os/proxmox/terraform.tfstate
+k3os/proxmox/terraform.tfstate.backup
+k3os/proxmox/kubeconfig

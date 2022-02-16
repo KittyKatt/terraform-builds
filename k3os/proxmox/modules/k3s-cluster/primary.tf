@@ -1,10 +1,10 @@
-locals {
-  primary_node_ip = lookup(var.node_configs[var.primary_node_name],"ip")
-  primary_node_mac = lookup(var.node_configs[var.primary_node_name],"macaddr")
-}
-locals {
-  primary_node_mac_formatted = replace(local.primary_node_mac, ":", "")
-}
+# locals {
+#   primary_node_ip = lookup(var.node_configs[var.primary_node_name],"ip")
+#   primary_node_mac = lookup(var.node_configs[var.primary_node_name],"macaddr")
+# }
+# locals {
+#   primary_node_mac_formatted = replace(local.primary_node_mac, ":", "")
+# }
 
 module "k3s_primary" {
   source = "../k3os-node"
@@ -24,7 +24,8 @@ module "k3s_primary" {
 
   pve_user        = var.pve_user
   pve_password    = var.pve_password
-  pve_host        = var.pve_host
+
+  proxmox_hosts   = var.proxmox_hosts
 
   k3os_write_files = [
     local.k8s_token_file,
@@ -40,10 +41,10 @@ locals {
   control_plane_url = "https://[${module.k3s_primary.primary_ipv4}]:6443"
 }
 
-output "control_plane_address" {
-  value = module.k3s_primary.primary_ipv4
-}
+# output "control_plane_address" {
+#   value = module.k3s_primary.primary_ipv4
+# }
 
-output "control_plane_url" {
-  value = local.control_plane_url
-}
+# output "control_plane_url" {
+#   value = local.control_plane_url
+# }

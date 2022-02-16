@@ -15,7 +15,8 @@ module "k3s_node" {
 
   pve_user        = var.pve_user
   pve_password    = var.pve_password
-  pve_host        = var.pve_host
+
+  proxmox_hosts   = var.proxmox_hosts
 
   k3os_write_files = [
     local.qemu_guest_agent
