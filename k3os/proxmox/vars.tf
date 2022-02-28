@@ -25,3 +25,19 @@ variable "pm_password" {
   type = string
   sensitive = true
 }
+variable "node_configs" {
+  type = map(
+    object({
+      name    = string
+      macaddr = list(string)
+      cpu_n   = string
+      mem_n   = string
+    })
+  )
+}
+variable "primary_node_name" {
+  type = string
+}
+variable "node_names" {
+  type = set(string)
+}

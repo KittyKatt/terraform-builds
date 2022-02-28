@@ -13,8 +13,8 @@ variable "k3s_token" {
   sensitive   = true
 }
 variable "k3s_args" {
-  type    = list(string)
-  default = []
+  type        = list(string)
+  default     = []
   description = "Additional arguments for the k3s process. See https://github.com/rancher/k3os#k3osk3s_args"
 }
 variable "k3os_write_files" {
@@ -48,8 +48,6 @@ variable "cpu_n" {
   type = string
 }
 variable "macaddr" {
-  type = string
-}
-variable "ip" {
-  type = string
+  type    = list(string)
+  default = []
 }
