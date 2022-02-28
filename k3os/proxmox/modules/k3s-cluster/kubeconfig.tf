@@ -1,5 +1,10 @@
+resource "time_sleep" "wait_for_k3s" {
+  depends_on = [ module.k3s_primary ]
+  create_duration = "10s"
+}
+
 data "remote_file" "kubeconfig" {
-  depends_on = [ module.k3s_node ]
+  depends_on = [ time_sleep.wait_for_k3s ]
   conn {
     host = "${module.k3s_primary.primary_ipv4}"
     user = "rancher"
