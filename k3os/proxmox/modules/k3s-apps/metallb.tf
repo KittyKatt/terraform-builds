@@ -7,7 +7,7 @@ resource "kubernetes_namespace" "metallb_system" {
 resource "kubernetes_config_map" "layer2_configuration" {
   metadata {
     name      = "config"
-    namespace = "metallb-system"
+    namespace = kubernetes_namespace.metallb_system.metadata[0].name
   }
   data = {
     config = templatefile("${path.module}/values/metallb.yml", {
@@ -25,7 +25,7 @@ resource "helm_release" "metallb" {
   repository       = "https://metallb.github.io/metallb"
   chart            = "metallb"
   version          = "0.10.2"
-  namespace        = "metallb-system"
+  namespace        = kubernetes_namespace.metallb_system.metadata[0].name
   create_namespace = false
   cleanup_on_fail  = true
 

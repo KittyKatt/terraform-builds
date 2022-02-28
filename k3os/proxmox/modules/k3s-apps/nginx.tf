@@ -8,12 +8,13 @@ resource "kubernetes_namespace" "ingress_nginx" {
 }
 
 resource "helm_release" "nginx-ingress" {
-  name       = "nginx"
-  repository = "https://helm.nginx.com/stable"
-  chart      = "nginx-ingress"
-  #version   = "6.0.1"
-  namespace  = "ingress-nginx"
-  wait       = false
+  name            = "nginx"
+  repository      = "https://helm.nginx.com/stable"
+  chart           = "nginx-ingress"
+  #version        = "6.0.1"
+  namespace       = kubernetes_namespace.ingress_nginx.metadata[0].name
+  wait_for_jobs   = true
+  cleanup_on_fail = true
   # Set service kind as daemonset
   set {
     name  = "controller.kind"

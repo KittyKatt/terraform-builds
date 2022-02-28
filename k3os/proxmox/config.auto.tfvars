@@ -1,3 +1,4 @@
+domain_name = "kittykatt.co"
 proxmox_hosts = [
   "toril",
   "abeir"

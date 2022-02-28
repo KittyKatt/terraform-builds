@@ -19,6 +19,9 @@ module "applications" {
 
   ip_range_lower_boundary = var.ip_range_lower_boundary
   ip_range_upper_boundary = var.ip_range_upper_boundary
+  domain_name             = var.domain_name
+  acme_email              = var.acme_email
+  api_token               = var.api_token
 
   depends_on = [ time_sleep.wait_for_k3s ]
 }

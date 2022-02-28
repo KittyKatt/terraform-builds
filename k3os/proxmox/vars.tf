@@ -12,6 +12,7 @@ variable "pve_host" {
 }
 variable "pm_url" {
   type = string
+  sensitive = true
 }
 variable "proxmox_hosts" {
   type    = list
@@ -47,4 +48,16 @@ variable "ip_range_lower_boundary" {
 }
 variable "ip_range_upper_boundary" {
   type = string
+}
+
+variable "domain_name" {
+  type = string
+}
+variable "acme_email" {
+  type = string
+  sensitive = true
+}
+variable "api_token" {
+  type = string
+  sensitive = true
 }
