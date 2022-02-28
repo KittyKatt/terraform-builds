@@ -1,12 +1,10 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  namespace: metallb-system
-  name: config
-data:
-  config: |
-    address-pools:
-    - name: inetfa
-      protocol: layer2
-      addresses:
-      - 10.1.10.31/32
+peers:
+- peer-address: 10.1.10.1
+  peer-asn: 64534
+  my-asn: 64535
+address-pools:
+- name: default
+  protocol: bgp
+  addresses:
+  - ${ip_range_lower_boundary}/32
+  avoid-buggy-ips: true

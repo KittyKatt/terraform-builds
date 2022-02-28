@@ -18,9 +18,16 @@ resource "proxmox_vm_qemu" "k3s_node" {
 
   network {
     model   = "virtio"
-    macaddr = var.macaddr
+    macaddr = var.macaddr[0]
     bridge  = "vmbr1"
     tag     = 10
+  }
+
+  network {
+    model   = "virtio"
+    # macaddr = var.macaddr[1]
+    bridge  = "vmbr3"
+    tag     = 25
   }
 
   disk {

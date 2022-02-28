@@ -15,3 +15,7 @@ provider "helm" {
     config_path = "${path.root}/kubeconfig"
   }
 }
+
+provider "kubectl" {
+  config_path = "${path.root}/kubeconfig"
+}

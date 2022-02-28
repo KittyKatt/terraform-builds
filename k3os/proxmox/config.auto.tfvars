@@ -24,3 +24,5 @@ node_configs = {
 }
 primary_node_name       = "moradin"
 node_names              = [ "dumathoin", "abbathor" ]
+ip_range_lower_boundary = "10.32.100.11"
+ip_range_upper_boundary = "10.32.100.15"

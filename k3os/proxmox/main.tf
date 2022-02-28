@@ -17,5 +17,8 @@ resource "time_sleep" "wait_for_k3s" {
 module "applications" {
   source = "./modules/k3s-apps"
 
+  ip_range_lower_boundary = var.ip_range_lower_boundary
+  ip_range_upper_boundary = var.ip_range_upper_boundary
+
   depends_on = [ time_sleep.wait_for_k3s ]
 }
