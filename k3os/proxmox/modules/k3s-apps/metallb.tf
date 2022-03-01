@@ -10,7 +10,7 @@ resource "kubernetes_config_map" "layer2_configuration" {
     namespace = kubernetes_namespace.metallb_system.metadata[0].name
   }
   data = {
-    config = templatefile("${path.module}/values/metallb.yml", {
+    config = templatefile("${path.module}/conf/values/metallb.yml", {
                 ip_range_lower_boundary = var.ip_range_lower_boundary,
                 ip_range_upper_boundary = var.ip_range_upper_boundary 
               })
