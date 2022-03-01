@@ -1,6 +1,6 @@
 resource "local_file" "cloud_init" {
   content = var.content
-  filename = "../../templates/${var.name}-config.yaml"
+  filename = "${path.root}/templates/${var.name}-config.yaml"
 }
 
 resource "null_resource" "cloud_init_config_files" {
@@ -13,7 +13,7 @@ resource "null_resource" "cloud_init_config_files" {
   }
 
   provisioner "file" {
-    source      = "../../templates/${var.name}-config.yaml"
+    source      = "${path.root}/templates/${var.name}-config.yaml"
     destination = "/mnt/pve/ISO/snippets/${var.name}-config.yaml"
   }
 }
