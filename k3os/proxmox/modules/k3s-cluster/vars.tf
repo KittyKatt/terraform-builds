@@ -8,20 +8,14 @@ variable "proxmox_hosts" {
   type    = list
   default = []
 }
-
-variable "primary_node_name" {
-  type = string
-}
-variable "node_names" {
-  type = set(string)
-}
 variable "node_configs" {
-  type = map(
+  type = list(
     object({
       name    = string
       macaddr = list(string)
       cpu_n   = string
       mem_n   = string
+      primary = optional(bool)
     })
   )
 }

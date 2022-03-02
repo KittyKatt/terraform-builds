@@ -2,9 +2,6 @@ resource "kubernetes_namespace" "ingress_nginx" {
   metadata {
     name = "ingress-nginx"
   }
-  depends_on = [
-    helm_release.metallb
-  ]
 }
 
 resource "helm_release" "nginx-ingress" {
@@ -14,6 +11,7 @@ resource "helm_release" "nginx-ingress" {
   #version        = "6.0.1"
   namespace       = kubernetes_namespace.ingress_nginx.metadata[0].name
   wait_for_jobs   = true
+  wait            = false
   cleanup_on_fail = true
   # Set service kind as daemonset
   set {
@@ -26,6 +24,6 @@ resource "helm_release" "nginx-ingress" {
     value = "LoadBalancer"
   }
   depends_on = [
-    kubernetes_namespace.ingress_nginx
+    helm_release.metallb
   ]
 }

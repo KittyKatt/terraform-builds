@@ -5,6 +5,7 @@ terraform {
       version = "2.8.0"
     }
   }
+  experiments = [module_variable_optional_attrs]
 }
 
 resource "random_shuffle" "target_host" {

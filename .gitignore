@@ -19,7 +19,7 @@ k3os/proxmox/.secrets
 k3os/proxmox/secrets.auto.tfvars
 k3os/proxmox/packer/variables.pkrvars.hcl
 k3os/proxmox/templates/
-k3os/proxmox/terraform.state.d/
+k3os/proxmox/terraform.tfstate.d/
 k3os/proxmox/terraform.tfstate
 k3os/proxmox/terraform.tfstate.backup
 k3os/proxmox/kubeconfig

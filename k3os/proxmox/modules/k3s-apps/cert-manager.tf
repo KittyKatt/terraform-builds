@@ -4,23 +4,6 @@ resource "kubernetes_namespace" "cert-manager" {
   }
 }
 
-resource "kubernetes_secret" "cloudflare-api-secret" {
-  metadata {
-    name      = "cloudflare-api-token-secret"
-    namespace = "cert-manager"
-  }
-
-  data = {
-    "api-token" = "${var.api_token}"
-  }
-
-  type = "Opaque"
-
-  depends_on = [
-    helm_release.nginx-ingress
-  ]
-}
-
 resource "helm_release" "cert-manager" {
   name             = "cm"
   namespace        = kubernetes_namespace.cert-manager.metadata[0].name
@@ -36,6 +19,7 @@ resource "helm_release" "cert-manager" {
   ]
 
   depends_on = [
-    kubernetes_secret.cloudflare-api-secret
+    helm_release.nginx-ingress,
+    helm_release.metallb
   ]
 }

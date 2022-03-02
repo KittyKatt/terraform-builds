@@ -18,9 +18,7 @@ locals {
   }
 }
 
-# output "k8s_api_token" {
-#   value     = local.k8s_admin_token
-# }
+
 # output "node_token" {
 #   value     = local.node_token
 # }

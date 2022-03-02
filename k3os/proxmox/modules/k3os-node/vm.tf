@@ -1,8 +1,3 @@
-
-terraform {
-  experiments = [module_variable_optional_attrs]
-}
-
 resource "proxmox_vm_qemu" "k3s_node" {
   depends_on = [module.user_data]
 
@@ -21,13 +16,6 @@ resource "proxmox_vm_qemu" "k3s_node" {
     macaddr = var.macaddr[0]
     bridge  = "vmbr1"
     tag     = 10
-  }
-
-  network {
-    model   = "virtio"
-    # macaddr = var.macaddr[1]
-    bridge  = "vmbr3"
-    tag     = 25
   }
 
   disk {

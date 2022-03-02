@@ -1,10 +1,10 @@
 module "k3s_primary" {
   source = "../k3os-node"
 
-  name           = var.primary_node_name
-  cpu_n          = lookup(var.node_configs[var.primary_node_name],"cpu_n")
-  mem_n          = lookup(var.node_configs[var.primary_node_name],"mem_n")
-  macaddr        = lookup(var.node_configs[var.primary_node_name],"macaddr")
+  name           = var.node_configs[0].name
+  cpu_n          = var.node_configs[0].cpu_n
+  mem_n          = var.node_configs[0].mem_n
+  macaddr        = var.node_configs[0].macaddr
   control_plane  = true
   k3s_server_url = "" # primary can omit this
   k3s_token      = local.node_token
