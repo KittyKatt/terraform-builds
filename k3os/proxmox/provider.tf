@@ -7,13 +7,27 @@ provider "proxmox" {
 provider "remote" {
   max_sessions = 2
 }
+
 provider "kubernetes" {
-  config_path = "${path.root}/kubeconfig"
+  # config_path            = "${path.root}/kubeconfig"
+    host                   = module.cluster.control_plane_url
+    token                  = module.cluster.k3s_api_token
+    cluster_ca_certificate = module.cluster.k3s_ca_cert
 }
 provider "helm" {
   kubernetes {
-    config_path = "${path.root}/kubeconfig"
+    # config_path            = "${path.root}/kubeconfig"
+      host                   = module.cluster.control_plane_url
+      token                  = module.cluster.k3s_api_token
+      cluster_ca_certificate = module.cluster.k3s_ca_cert
   }
+}
+provider "kubectl" {
+  # config_path            = "${path.root}/kubeconfig"
+    host                   = module.cluster.control_plane_url
+    token                  = module.cluster.k3s_api_token
+    cluster_ca_certificate = module.cluster.k3s_ca_cert
+}
 }
 
 provider "kubectl" {

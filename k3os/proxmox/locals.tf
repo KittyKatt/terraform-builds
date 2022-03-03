@@ -68,10 +68,3 @@ locals {
 locals {
   config = "${lookup(local.environments, terraform.workspace, local.environments["default"])}"
 }
-# output "workspace" {
-#   value = "${terraform.workspace}"
-# }
-
-output "config" {
-  value = local.config.node_configs[0]
-}

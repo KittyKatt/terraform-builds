@@ -2,6 +2,9 @@ resource "kubernetes_namespace" "metallb_system" {
   metadata {
     name = "metallb-system"
   }
+  depends_on = [
+    var.k3s_cluster_created
+  ]
 }
 
 resource "kubernetes_config_map" "layer2_configuration" {
@@ -31,22 +34,7 @@ resource "helm_release" "metallb" {
 
   values = [ "existingConfigMap: config" ]
 
-  # values = [
-  #   "templatefile(${path.module}/values/metallb.yml, {
-  #               ip_range_lower_boundary = var.ip_range_lower_boundary,
-  #               ip_range_upper_boundary = var.ip_range_upper_boundary 
-  #             })"
-  # ]
-
   depends_on = [
     kubernetes_config_map.layer2_configuration
   ]
 }
-
-# resource "kubectl_manifest" "metallb_configmap" {
-#   yaml_body = templatefile("${path.module}/values/metallb.yml", {
-#                 ip_range_lower_boundary = var.ip_range_lower_boundary
-#               })
-
-#   depends_on = [helm_release.metallb]
-# }

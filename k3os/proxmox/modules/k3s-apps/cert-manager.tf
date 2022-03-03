@@ -2,6 +2,10 @@ resource "kubernetes_namespace" "cert-manager" {
   metadata {
     name = "cert-manager"
   }
+  
+  depends_on = [
+    var.k3s_cluster_created
+  ]
 }
 
 resource "helm_release" "cert-manager" {

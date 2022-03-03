@@ -15,3 +15,7 @@ variable "acme_email" {
 variable "api_token" {
   type = string
 }
+
+variable "k3s_cluster_created" {
+  type = bool
+}
