@@ -1,0 +1,27 @@
+certificate:
+  metadata:
+    name: tls-rancher-ingress
+    namespace: ${namespace}
+  spec:
+    secretName: tls-rancher-ingress
+    commonName: ${dns_name}
+    dnsName: ${dns_name}
+    issuerRef:
+      name: rancher-letsencrypt
+issuer:
+  metadata:
+    name: rancher-letsencrypt
+    namespace: ${namespace}
+  spec:
+    acme:
+      email: ${acme_email}
+      server: ${acme_server}
+      privateKeySecretRef:
+        name: letsencrypt
+      solvers:
+        dns01:
+          cloudflare:
+            email: ${acme_email}
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: api-token

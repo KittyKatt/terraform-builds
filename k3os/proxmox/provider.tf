@@ -28,8 +28,20 @@ provider "kubectl" {
     token                  = module.cluster.k3s_api_token
     cluster_ca_certificate = module.cluster.k3s_ca_cert
 }
+
+provider "rancher2" {
+  alias = "bootstrap"
+
+  api_url   = "https://rancher.${local.config.domain_name}"
+  bootstrap = true
+  timeout   = "10m"
+  insecure = true
 }
 
-provider "kubectl" {
-  config_path = "${path.root}/kubeconfig"
+provider "rancher2" {
+  alias     = "admin"
+
+  api_url   = module.rancher.rancher2_bootstrap.admin.url
+  token_key = module.rancher.rancher2_bootstrap.admin.token
+  insecure = true
 }

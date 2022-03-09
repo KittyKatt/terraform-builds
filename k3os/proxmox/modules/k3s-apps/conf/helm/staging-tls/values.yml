@@ -1,0 +1,27 @@
+certificate:
+  metadata:
+    name: tls-staging-ingress
+    namespace: ${namespace}
+  spec:
+    secretName: tls-staging-ingress
+    commonName: '*.${dns_zone}'
+    dnsName: ${dns_zone}
+    issuerRef:
+      name: staging-letsencrypt
+issuer:
+  metadata:
+    name: staging-letsencrypt
+    namespace: ${namespace}
+  spec:
+    acme:
+      email: ${acme_email}
+      server: ${acme_server}
+      privateKeySecretRef:
+        name: letsencrypt
+      solvers:
+        dns01:
+          cloudflare:
+            email: ${acme_email}
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: api-token

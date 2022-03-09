@@ -16,6 +16,8 @@ terraform {
       source = "gavinbunney/kubectl"
       version = "1.13.1"
     }
+    rancher2 = {
+      source = "rancher/rancher2"
+    }
   }
 }
-

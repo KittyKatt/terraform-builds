@@ -1,0 +1,7 @@
+hostname: ${hostname}
+replicas: 3
+ingress:
+  extraAnnotations:
+    kubernetes.io/ingress.class: nginx
+  tls:
+    source: secret

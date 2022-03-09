@@ -24,6 +24,12 @@ resource "proxmox_vm_qemu" "k3s_node" {
     size    = "35G"
   }
 
+  disk {
+    type    = "virtio"
+    storage = "VMDisks"
+    size    = "70G"
+  }
+
   scsihw   = "virtio-scsi-pci"
   boot     = "c"
   bootdisk = "virtio0"

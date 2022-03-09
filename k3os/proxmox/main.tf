@@ -19,3 +19,15 @@ module "applications" {
   ipa_fqdn                = var.ipa_fqdn
   ipa_dnssec_key          = var.ipa_dnssec_key
 }
+
+module "rancher" {
+  source = "./modules/rancher"
+
+  rancher_bootstrap_password = var.rancher_bootstrap_password
+  rancher_created            = module.applications.rancher_created
+
+  providers = {
+    rancher2.bootstrap = rancher2.bootstrap
+    rancher2.admin     = rancher2.admin
+  }
+}

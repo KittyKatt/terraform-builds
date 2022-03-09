@@ -1,0 +1,18 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: {{ .Values.issuer.metadata.name }}
+  namespace: {{ .Values.issuer.metadata.namespace }}
+spec:
+  acme:
+    email: {{ .Values.issuer.spec.acme.email }}
+    server: {{ .Values.issuer.spec.acme.server }}
+    privateKeySecretRef:
+      name: {{ .Values.issuer.spec.acme.privateKeySecretRef.name }} 
+    solvers:
+    - dns01:
+        cloudflare:
+          email: {{ .Values.issuer.spec.acme.solvers.dns01.cloudflare.email }}
+          apiTokenSecretRef:
+            name: {{ .Values.issuer.spec.acme.solvers.dns01.cloudflare.apiTokenSecretRef.name }}
+            key: {{ .Values.issuer.spec.acme.solvers.dns01.cloudflare.apiTokenSecretRef.key }}
