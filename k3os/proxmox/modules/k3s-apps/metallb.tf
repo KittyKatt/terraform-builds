@@ -1,7 +1,15 @@
-resource "kubernetes_namespace" "metallb_system" {
+resource "kubernetes_namespace" "metallb" {
   metadata {
     name = "metallb-system"
   }
+
+  lifecycle {
+    ignore_changes = [
+      metadata[0].annotations,
+      metadata[0].labels
+    ]
+  }
+
   depends_on = [
     var.k3s_cluster_created
   ]
@@ -10,7 +18,7 @@ resource "kubernetes_namespace" "metallb_system" {
 resource "kubernetes_config_map" "layer2_configuration" {
   metadata {
     name      = "config"
-    namespace = kubernetes_namespace.metallb_system.metadata[0].name
+    namespace = kubernetes_namespace.metallb.metadata[0].name
   }
   data = {
     config = templatefile("${path.module}/conf/values/metallb.yml", {
@@ -19,7 +27,7 @@ resource "kubernetes_config_map" "layer2_configuration" {
               })
   }
   depends_on = [
-    kubernetes_namespace.metallb_system
+    kubernetes_namespace.metallb
   ]
 }
 
@@ -28,7 +36,7 @@ resource "helm_release" "metallb" {
   repository       = "https://metallb.github.io/metallb"
   chart            = "metallb"
   version          = "0.10.2"
-  namespace        = kubernetes_namespace.metallb_system.metadata[0].name
+  namespace        = kubernetes_namespace.metallb.metadata[0].name
   create_namespace = false
   cleanup_on_fail  = true
 

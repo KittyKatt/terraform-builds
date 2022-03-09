@@ -30,6 +30,14 @@ variable "api_token" {
   type = string
   sensitive = true
 }
+variable "ipa_dnssec_key" {
+  type = string
+  sensitive = true
+}
+variable "ipa_fqdn" {
+  type = string
+  sensitive = true
+}
 variable "rancher_bootstrap_password" {
   type = string
   sensitive = true

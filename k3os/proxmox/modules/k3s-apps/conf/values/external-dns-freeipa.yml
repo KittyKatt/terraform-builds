@@ -1,0 +1,13 @@
+sources:
+  - ingress
+domainFilters:
+  - kittykatt.co
+provider: rfc2136
+rfc2136:
+  host: "${ipa_fqdn}"
+  port: 53
+  zone: "${dns_zone}"
+  tsigKeyname: "${key_name}"
+  tsigSecretAlg: "hmac-sha512"
+  tsigAxfr: false
+  secretName: "${secret_name}"

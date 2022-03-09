@@ -15,6 +15,14 @@ variable "acme_email" {
 variable "api_token" {
   type = string
 }
+variable "ipa_dnssec_key" {
+  type = string
+  sensitive = true
+}
+variable "ipa_fqdn" {
+  type = string
+  sensitive = true
+}
 
 variable "k3s_cluster_created" {
   type = bool

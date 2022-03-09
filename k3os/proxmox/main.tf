@@ -16,4 +16,6 @@ module "applications" {
   domain_name             = local.config.domain_name
   acme_email              = var.acme_email
   api_token               = var.api_token
+  ipa_fqdn                = var.ipa_fqdn
+  ipa_dnssec_key          = var.ipa_dnssec_key
 }

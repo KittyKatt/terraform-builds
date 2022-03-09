@@ -10,7 +10,7 @@ locals {
 data "http" "wait_for_cluster" {
   url      = format("%s/readyz", local.control_plane_url)
   insecure = true
-  timeout  = 300
+  timeout  = 720
 
   request_headers = {
     "Authorization" = "Bearer ${local.k8s_admin_token}"
