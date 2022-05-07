@@ -1,8 +1,4 @@
 swarm/xcp-ng/
-swarm/proxmox/.terraform.lock.hcl
-swarm/proxmox/.terraform/
-swarm/proxmox/terraform.tfstate
-swarm/proxmox/terraform.tfstate.backup
 swarm/proxmox/secrets.auto.tfvars
 swarm/proxmox/packer/config/swarm-packer.yml
 swarm/proxmox/packer/variables.pkrvars.hcl
@@ -13,19 +9,52 @@ swarm/proxmox/modules/provision/inventory.yml
 swarm/proxmox/modules/provision/ansible/roles/worker/vars/main.yml
 swarm/proxmox/modules/provision/ansible/roles/manager/vars/main.yml
 swarm/proxmox-fcos/
-k3os/proxmox/.terraform.lock.hcl
-k3os/proxmox/.terraform/
 k3os/proxmox/.secrets
 k3os/proxmox/secrets.auto.tfvars
 k3os/proxmox/packer/variables.pkrvars.hcl
 k3os/proxmox/templates/
-k3os/proxmox/terraform.tfstate.d/
-k3os/proxmox/terraform.tfstate
-k3os/proxmox/terraform.tfstate.backup
 k3os/proxmox/kubeconfig
-k3os/proxmox/.terraform.tfstate.lock.info
-k3os/vsphere/.terraform/
-k3os/vsphere/.terraform.lock.hcl
+k3os/proxmox/aws-creds.sh
 k3os/vsphere/.secrets
 k3os/vsphere/packer/variables.pkrvars.hcl
-swarm/proxmox/.terraform.tfstate.lock.info
+
+# Certs
+**/certs/
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Lock files
+**/.terraform.lock.hcl
+
+# Exclude all .tfvars files, which are likely to contain sensitive data, such as
+# password, private keys, and other secrets. These should not be part of version 
+# control as they are data points which are potentially sensitive and subject 
+# to change depending on the environment.
+*.tfvars
+*.tfvars.json
+
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Include override files you do wish to add to version control using negated pattern
+# !example_override.tf
+
+# Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
+# example: *tfplan*
+
+# Ignore CLI configuration files
+.terraformrc
+terraform.rc
