@@ -10,3 +10,18 @@ write_files:
     content: ""
     owner: root
     permissions: "0644"
+  - path: /etc/create_partitions.sh
+    content: |-
+      #!/bin/bash
+      sudo mkdir -p /data/longhorn && \
+      sudo parted -s /dev/vdb mklabel gpt && \
+      sudo parted -s /dev/vdb mkpart primary ext4 1049kB 100% && \
+      sudo partprobe /dev/vdb && \
+      sudo mkfs.ext4 /dev/vdb1 && \
+      echo "/dev/vdb1  /data/longhorn  ext4  defaults 0 0" >> /etc/fstab
+    owner: root
+    permissions: "0755"
+
+run_cmd:
+  - "sh /etc/create_partitions.sh || echo 'partition created!'"
+  - "sudo mount /dev/vdb1 /data/longhorn"

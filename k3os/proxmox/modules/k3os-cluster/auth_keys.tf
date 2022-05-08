@@ -1,7 +1,4 @@
-resource "random_password" "node_token" {
-  length  = 48
-  special = false
-}
+resource "random_uuid" "node_token" {}
 
 resource "random_password" "k8s_admin_token" {
   length  = 48
@@ -9,7 +6,7 @@ resource "random_password" "k8s_admin_token" {
 }
 
 locals {
-  node_token = random_password.node_token.result
+  node_token = random_uuid.node_token.result
   k8s_admin_token = random_password.k8s_admin_token.result
   # https://kubernetes.io/docs/reference/access-authn-authz/authentication/#static-token-file
   k8s_token_file = {

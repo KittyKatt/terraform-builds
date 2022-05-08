@@ -11,8 +11,11 @@ resource "kubernetes_namespace" "metallb" {
   }
 
   depends_on = [
-    var.k3s_cluster_created
+    var.k3s_cluster_created,
+    var.kubeapi_lb_ip
   ]
+
+  provider = kubernetes.lb
 }
 
 resource "kubernetes_config_map" "layer2_configuration" {
@@ -29,6 +32,8 @@ resource "kubernetes_config_map" "layer2_configuration" {
   depends_on = [
     kubernetes_namespace.metallb
   ]
+
+  provider = kubernetes.lb
 }
 
 resource "helm_release" "metallb" {
@@ -45,4 +50,6 @@ resource "helm_release" "metallb" {
   depends_on = [
     kubernetes_config_map.layer2_configuration
   ]
+
+  provider = helm.lb
 }

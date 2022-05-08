@@ -11,8 +11,11 @@ resource "kubernetes_namespace" "external-dns-freeipa" {
   }
 
   depends_on = [
-    var.k3s_cluster_created
+    var.k3s_cluster_created,
+    var.kubeapi_lb_ip
   ]
+
+  provider = kubernetes.lb
 }
 
 resource "kubernetes_secret" "freeipa-rfc2136" {
@@ -27,9 +30,7 @@ resource "kubernetes_secret" "freeipa-rfc2136" {
 
   type = "Opaque"
 
-  depends_on = [
-    kubernetes_namespace.external-dns-freeipa
-  ]
+  provider = kubernetes.lb
 }
 
 resource "helm_release" "external-dns-freeipa" {
@@ -52,4 +53,6 @@ resource "helm_release" "external-dns-freeipa" {
       }
     )
   ]
+
+  provider = helm.lb
 }

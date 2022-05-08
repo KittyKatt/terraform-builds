@@ -34,6 +34,9 @@ variable "pve_user" {
 variable "pve_password" {
   type = string
 }
+variable "proxmox_template" {
+  type = string
+}
 variable "proxmox_hosts" {
   type    = list
   default = []

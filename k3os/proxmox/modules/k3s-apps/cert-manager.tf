@@ -11,8 +11,11 @@ resource "kubernetes_namespace" "cert-manager" {
   }
   
   depends_on = [
-    var.k3s_cluster_created
+    var.k3s_cluster_created,
+    var.kubeapi_lb_ip
   ]
+
+  provider = kubernetes.lb
 }
 
 resource "helm_release" "cert-manager" {
@@ -31,7 +34,8 @@ resource "helm_release" "cert-manager" {
 
   depends_on = [
     helm_release.nginx,
-    helm_release.metallb,
     helm_release.external-dns-freeipa
   ]
+
+  provider = helm.lb
 }

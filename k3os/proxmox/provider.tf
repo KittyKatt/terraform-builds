@@ -9,12 +9,20 @@ provider "remote" {
 }
 
 provider "kubernetes" {
-  # config_path            = "${path.root}/kubeconfig"
-    host                   = module.cluster.control_plane_url
-    token                  = module.cluster.k3s_api_token
-    cluster_ca_certificate = module.cluster.k3s_ca_cert
+  alias                  = "lb_bootstrap"
+  host                   = module.cluster.control_plane_url
+  token                  = module.cluster.k3s_api_token
+  cluster_ca_certificate = module.cluster.k3s_ca_cert
 }
+provider "kubernetes" {
+  alias                  = "lb"
+  host                   = module.load-balancer.control_plane_url
+  token                  = module.cluster.k3s_api_token
+  cluster_ca_certificate = module.cluster.k3s_ca_cert
+}
+
 provider "helm" {
+  alias = "lb_bootstrap"
   kubernetes {
     # config_path            = "${path.root}/kubeconfig"
       host                   = module.cluster.control_plane_url
@@ -22,6 +30,16 @@ provider "helm" {
       cluster_ca_certificate = module.cluster.k3s_ca_cert
   }
 }
+provider "helm" {
+  alias = "lb"
+  kubernetes {
+    # config_path            = "${path.root}/kubeconfig"
+      host                   = module.load-balancer.control_plane_url
+      token                  = module.cluster.k3s_api_token
+      cluster_ca_certificate = module.cluster.k3s_ca_cert
+  }
+}
+
 provider "kubectl" {
   # config_path            = "${path.root}/kubeconfig"
     host                   = module.cluster.control_plane_url
