@@ -13,20 +13,22 @@ locals {
     "<F10>",
     # packer attempts to shut the VM down directly after booting
     # but we need to wait for it to run the installation first
-    "<wait60s>"
+    "<wait80s>"
   ]
 }
 
 source "proxmox-iso" "proxmox" {
-  proxmox_url  = var.api_url
+  proxmox_url              = var.api_url
+  username                 = var.api_username
+  password                 = var.api_password
   insecure_skip_tls_verify = true
-  node         = var.node
-  communicator = "none"
-  qemu_agent   = true
-  boot_command = concat(local.boot_command_pre, local.boot_command_args, local.boot_command_args_proxmox, local.boot_command_post)
-  boot_wait    = "5s"
+  node                     = var.node
+  communicator             = "none"
+  qemu_agent               = true
+  boot_command             = concat(local.boot_command_pre, local.boot_command_args, local.boot_command_args_proxmox, local.boot_command_post)
+  boot_wait                = "5s"
 
-  template_name        = "k3os"
+  template_name        = "k3os-${formatdate("DDMMYYYY", timestamp())}"
   template_description = <<EOF
     k3os ${var.k3os_version}
     generated on ${timestamp()}"
@@ -46,6 +48,7 @@ source "proxmox-iso" "proxmox" {
   memory      = "2048"
   cloud_init  = false
   unmount_iso = true
+  vm_id       = 2000
 
   scsi_controller = "virtio-scsi-pci"
 

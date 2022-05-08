@@ -6,6 +6,7 @@ terraform {
     rancher2 = {
       source = "rancher/rancher2"
       configuration_aliases = [
+        rancher2.bootstrap,
         rancher2.admin
       ]
     }

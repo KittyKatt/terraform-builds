@@ -1,7 +1,7 @@
 data "remote_file" "kubeconfig" {
   depends_on = [ data.http.wait_for_cluster ]
   conn {
-    host = "${module.k3s_primary.primary_ipv4}"
+    host = "${module.k3s_primary[local.primary_node[0]].primary_ipv4}"
     user = "rancher"
     agent = true
   }
@@ -11,6 +11,7 @@ data "remote_file" "kubeconfig" {
 resource "local_file" "kubeconfig" {
   content = local.kubeconfig
   filename = local.kubeconfig_main
+  file_permission = "0600"
 }
 
 # resource "local_file" "localkubeconfig" {

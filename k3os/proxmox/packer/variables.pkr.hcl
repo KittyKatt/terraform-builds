@@ -19,6 +19,14 @@ variable "api_url" {
 variable "node" {
   type    = string
 }
+variable "api_username" {
+  type      = string
+  sensitive = true
+}
+variable "api_password" {
+  type    = string
+  sensitive = true
+}
 
 
 #variable "config_url" {

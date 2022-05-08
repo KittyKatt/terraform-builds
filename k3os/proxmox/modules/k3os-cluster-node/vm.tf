@@ -8,7 +8,7 @@ resource "proxmox_vm_qemu" "k3s_node" {
   sockets = 1
   memory  = var.mem_n
 
-  clone = "k3os"
+  clone = var.proxmox_template
   full_clone = false
 
   network {
@@ -20,7 +20,7 @@ resource "proxmox_vm_qemu" "k3s_node" {
 
   disk {
     type    = "virtio"
-    storage = "VMDisks"
+    storage = "VMOS"
     size    = "35G"
   }
 

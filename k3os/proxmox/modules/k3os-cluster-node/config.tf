@@ -20,7 +20,7 @@ locals {
 
 module "user_data" {
   depends_on = [ random_shuffle.target_host ]
-  source     = "../config"
+  source     = "../k3os-node-config"
 
   pve_user     = var.pve_user
   pve_password = var.pve_password
